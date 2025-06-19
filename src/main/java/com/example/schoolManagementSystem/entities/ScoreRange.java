@@ -9,6 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "score_ranges")
 public class ScoreRange {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "score_range_seq")
     @SequenceGenerator(name = "score_range_seq", sequenceName = "score_range_seq", allocationSize = 1)
@@ -26,10 +27,10 @@ public class ScoreRange {
 
     public ScoreRange() {}
 
-    public ScoreRange(Long id, Integer maxScore, Integer minScore, Grades grade) {
+    public ScoreRange(Long id, Integer minScore, Integer maxScore, Grades grade) {
         this.id = id;
-        this.maxScore = maxScore;
         this.minScore = minScore;
+        this.maxScore = maxScore;
         this.grade = grade;
     }
 
@@ -67,14 +68,15 @@ public class ScoreRange {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof ScoreRange)) return false;
         ScoreRange that = (ScoreRange) o;
-        return Objects.equals(id, that.id) && Objects.equals(minScore, that.minScore) && Objects.equals(maxScore, that.maxScore) && grade == that.grade;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, minScore, maxScore, grade);
+        return Objects.hash(id);
     }
 
     @Override

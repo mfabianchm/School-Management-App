@@ -8,11 +8,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "classes")
 public class SchoolClass {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "school_class_seq")
     @SequenceGenerator(name = "school_class_seq", sequenceName = "school_class_seq", allocationSize = 1)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToOne
@@ -40,10 +42,9 @@ public class SchoolClass {
     private Classroom classroom;
 
     // Constructors
-    public SchoolClass() {
-    }
+    public SchoolClass() {}
 
-    public SchoolClass(Long id, String name, Subject subject, Teacher teacher,
+    public SchoolClass(Long id, String name, SchoolSubject subject, Teacher teacher,
                        Term term, Period startPeriod, Period endPeriod, Classroom classroom) {
         this.id = id;
         this.name = name;
@@ -56,86 +57,50 @@ public class SchoolClass {
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
-    public Subject getSubject() {
-        return subject;
-    }
+    public SchoolSubject getSubject() { return subject; }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
+    public void setSubject(SchoolSubject subject) { this.subject = subject; }
 
-    public Teacher getTeacher() {
-        return teacher;
-    }
+    public Teacher getTeacher() { return teacher; }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
+    public void setTeacher(Teacher teacher) { this.teacher = teacher; }
 
-    public Term getTerm() {
-        return term;
-    }
+    public Term getTerm() { return term; }
 
-    public void setTerm(Term term) {
-        this.term = term;
-    }
+    public void setTerm(Term term) { this.term = term; }
 
-    public Period getStartPeriod() {
-        return startPeriod;
-    }
+    public Period getStartPeriod() { return startPeriod; }
 
-    public void setStartPeriod(Period startPeriod) {
-        this.startPeriod = startPeriod;
-    }
+    public void setStartPeriod(Period startPeriod) { this.startPeriod = startPeriod; }
 
-    public Period getEndPeriod() {
-        return endPeriod;
-    }
+    public Period getEndPeriod() { return endPeriod; }
 
-    public void setEndPeriod(Period endPeriod) {
-        this.endPeriod = endPeriod;
-    }
+    public void setEndPeriod(Period endPeriod) { this.endPeriod = endPeriod; }
 
-    public Classroom getClassroom() {
-        return classroom;
-    }
+    public Classroom getClassroom() { return classroom; }
 
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
-    }
-
-    // equals and hashCode based on id
+    public void setClassroom(Classroom classroom) { this.classroom = classroom; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SchoolClass)) return false;
         SchoolClass that = (SchoolClass) o;
-        return Objects.equals(getId(), that.getId());
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id);
     }
-
-    // toString method
 
     @Override
     public String toString() {

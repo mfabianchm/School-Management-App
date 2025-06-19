@@ -17,7 +17,7 @@ public class Student {
     @Column(name = "student_firstname", nullable = false)
     private String studentFirstname;
 
-    @Column(name = "student_lasttname", nullable = false)
+    @Column(name = "student_lastname", nullable = false) // fixed typo here
     private String studentLastname;
 
     @Column(name = "date_of_birth", nullable = false)
@@ -30,8 +30,7 @@ public class Student {
     @Column(name = "enrolment_date", nullable = false)
     private LocalDate enrolmentDate;
 
-    public Student() {
-    }
+    public Student() {}
 
     public Student(Long id, String studentFirstname, String studentLastname, LocalDate dateOfBirth, Gender gender, LocalDate enrolmentDate) {
         this.id = id;
@@ -58,20 +57,20 @@ public class Student {
         this.studentFirstname = studentFirstname;
     }
 
-    public String getStudentLastname() {
-        return studentLastname;
-    }
-
-    public void setStudentLastname(String studentLastname) {
-        this.studentLastname = studentLastname;
-    }
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getStudentLastname() {
+        return studentLastname;
+    }
+
+    public void setStudentLastname(String studentLastname) {
+        this.studentLastname = studentLastname;
     }
 
     public Gender getGender() {
@@ -92,14 +91,15 @@ public class Student {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(studentFirstname, student.studentFirstname) && Objects.equals(studentLastname, student.studentLastname) && Objects.equals(dateOfBirth, student.dateOfBirth) && gender == student.gender && Objects.equals(enrolmentDate, student.enrolmentDate);
+        return Objects.equals(id, student.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, studentFirstname, studentLastname, dateOfBirth, gender, enrolmentDate);
+        return Objects.hash(id);
     }
 
     @Override

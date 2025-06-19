@@ -67,22 +67,23 @@ public class StudentClass {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof StudentClass)) return false;
         StudentClass that = (StudentClass) o;
-        return Objects.equals(id, that.id) && Objects.equals(student, that.student) && Objects.equals(schoolClass, that.schoolClass) && Objects.equals(score, that.score);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, student, schoolClass, score);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "StudentClass{" +
                 "id=" + id +
-                ", student=" + student +
-                ", schoolClass=" + schoolClass +
+                ", studentId=" + (student != null ? student.getId() : null) +
+                ", schoolClassId=" + (schoolClass != null ? schoolClass.getId() : null) +
                 ", score=" + score +
                 '}';
     }

@@ -5,9 +5,8 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "student_guardians")
+@Table(name = "student_guardian")
 public class StudentGuardian {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_guardian_seq")
     @SequenceGenerator(name = "student_guardian_seq", sequenceName = "student_guardian_seq", allocationSize = 1)
@@ -25,8 +24,7 @@ public class StudentGuardian {
     @JoinColumn(name = "guardian_type_id", nullable = false)
     private GuardianType guardianType;
 
-    public StudentGuardian() {
-    }
+    public StudentGuardian() {}
 
     public StudentGuardian(Long id, Student student, Guardian guardian, GuardianType guardianType) {
         this.id = id;
@@ -69,23 +67,24 @@ public class StudentGuardian {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof StudentGuardian)) return false;
         StudentGuardian that = (StudentGuardian) o;
-        return Objects.equals(id, that.id) && Objects.equals(student, that.student) && Objects.equals(guardian, that.guardian) && Objects.equals(guardianType, that.guardianType);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, student, guardian, guardianType);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "StudentGuardian{" +
                 "id=" + id +
-                ", student=" + student +
-                ", guardian=" + guardian +
-                ", guardianType=" + guardianType +
+                ", studentId=" + (student != null ? student.getId() : null) +
+                ", guardianId=" + (guardian != null ? guardian.getId() : null) +
+                ", guardianTypeId=" + (guardianType != null ? guardianType.getId() : null) +
                 '}';
     }
 }

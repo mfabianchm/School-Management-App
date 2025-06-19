@@ -7,21 +7,23 @@ import java.util.Objects;
 @Entity
 @Table(name = "classrooms")
 public class Classroom {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "classroom_seq")
     @SequenceGenerator(name = "classroom_seq", sequenceName = "classroom_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "classroomtypes_id", nullable = false)
+    @JoinColumn(name = "classroom_type_id", nullable = false)
     private ClassroomTypes classroomTypes;
 
     @Column(name = "room_name", nullable = false)
     private String roomName;
 
     @Column(name = "capacity", nullable = false)
-    private Integer capacity;
+    private int capacity;
 
+    // Constructors
     public Classroom() {}
 
     public Classroom(Long id, ClassroomTypes classroomTypes, String roomName, int capacity) {
@@ -31,6 +33,7 @@ public class Classroom {
         this.capacity = capacity;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -63,18 +66,21 @@ public class Classroom {
         this.capacity = capacity;
     }
 
+    // equals and hashCode based only on ID (recommended for JPA entities)
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Classroom classroom = (Classroom) o;
-        return capacity == classroom.capacity && Objects.equals(id, classroom.id) && Objects.equals(classroomTypes, classroom.classroomTypes) && Objects.equals(roomName, classroom.roomName);
+        return Objects.equals(id, classroom.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, classroomTypes, roomName, capacity);
+        return Objects.hash(id);
     }
 
+    // toString
     @Override
     public String toString() {
         return "Classroom{" +

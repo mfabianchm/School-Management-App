@@ -9,14 +9,14 @@ import java.util.Objects;
 @Table(name = "teachers")
 public class Teacher {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teachers_seq")
-    @SequenceGenerator(name = "teachers_seq", sequenceName = "teachers_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teacher_seq")
+    @SequenceGenerator(name = "teacher_seq", sequenceName = "teacher_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "teacher_firstname", nullable = false)
     private String teacherFirstname;
 
-    @Column(name = "teacher_lasttname", nullable = false)
+    @Column(name = "teacher_lastname", nullable = false)
     private String teacherLastname;
 
     @Enumerated(EnumType.STRING)
@@ -39,6 +39,8 @@ public class Teacher {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
+
+    // Getters and setters...
 
     public Long getId() {
         return id;
@@ -88,17 +90,22 @@ public class Teacher {
         this.phoneNumber = phoneNumber;
     }
 
+    // equals and hashCode based on id only
+
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof Teacher)) return false;
         Teacher teacher = (Teacher) o;
-        return Objects.equals(id, teacher.id) && Objects.equals(teacherFirstname, teacher.teacherFirstname) && Objects.equals(teacherLastname, teacher.teacherLastname) && gender == teacher.gender && Objects.equals(email, teacher.email) && Objects.equals(phoneNumber, teacher.phoneNumber);
+        return Objects.equals(id, teacher.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, teacherFirstname, teacherLastname, gender, email, phoneNumber);
+        return Objects.hash(id);
     }
+
+    // toString with all fields except relations
 
     @Override
     public String toString() {

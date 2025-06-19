@@ -52,14 +52,15 @@ public class YearLevel {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        YearLevel yearLevel = (YearLevel) o;
-        return Objects.equals(id, yearLevel.id) && Objects.equals(levelName, yearLevel.levelName) && Objects.equals(levelOrder, yearLevel.levelOrder);
+        if (this == o) return true;
+        if (!(o instanceof YearLevel)) return false;
+        YearLevel that = (YearLevel) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, levelName, levelOrder);
+        return Objects.hash(id);
     }
 
     @Override

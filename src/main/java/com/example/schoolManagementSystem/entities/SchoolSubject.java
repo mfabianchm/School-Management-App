@@ -76,7 +76,7 @@ public class SchoolSubject {
     // toString
     @Override
     public String toString() {
-        return "Subject{" +
+        return "SchoolSubject{" +
                 "id=" + id +
                 ", subjectName='" + subjectName + '\'' +
                 ", department=" + (department != null ? department.getId() : null) +

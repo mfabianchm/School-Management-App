@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "periods")
 public class Period {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "period_seq")
     @SequenceGenerator(name = "period_seq", sequenceName = "period_seq", allocationSize = 1)
@@ -36,6 +37,7 @@ public class Period {
         this.endTime = endTime;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -52,20 +54,20 @@ public class Period {
         this.schoolYear = schoolYear;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
     public String getPeriodName() {
         return periodName;
     }
 
     public void setPeriodName(String periodName) {
         this.periodName = periodName;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
     public LocalTime getEndTime() {
@@ -76,18 +78,21 @@ public class Period {
         this.endTime = endTime;
     }
 
+    // equals and hashCode using only ID
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof Period)) return false;
         Period period = (Period) o;
-        return Objects.equals(id, period.id) && Objects.equals(schoolYear, period.schoolYear) && Objects.equals(periodName, period.periodName) && Objects.equals(startTime, period.startTime) && Objects.equals(endTime, period.endTime);
+        return Objects.equals(id, period.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, schoolYear, periodName, startTime, endTime);
+        return Objects.hash(id);
     }
 
+    // toString for debugging
     @Override
     public String toString() {
         return "Period{" +

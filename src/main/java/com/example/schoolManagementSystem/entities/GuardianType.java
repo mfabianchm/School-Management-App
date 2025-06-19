@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "guardian_types")
 public class GuardianType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "guardian_type_seq")
     @SequenceGenerator(name = "guardian_type_seq", sequenceName = "guardian_type_seq", allocationSize = 1)
@@ -17,8 +18,7 @@ public class GuardianType {
     @Column(name = "guardian_type", nullable = false)
     private GuardianTypes guardianType;
 
-    public GuardianType() {
-    }
+    public GuardianType() {}
 
     public GuardianType(Long id, GuardianTypes guardianType) {
         this.id = id;
@@ -43,14 +43,15 @@ public class GuardianType {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GuardianType that = (GuardianType) o;
-        return Objects.equals(id, that.id) && guardianType == that.guardianType;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, guardianType);
+        return Objects.hash(id);
     }
 
     @Override

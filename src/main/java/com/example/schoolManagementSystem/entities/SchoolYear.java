@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "school_years")
 public class SchoolYear {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "school-year_seq")
     @SequenceGenerator(name = "school-year_seq", sequenceName = "school-year_seq", allocationSize = 1)
@@ -22,7 +23,6 @@ public class SchoolYear {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-
     public SchoolYear() {}
 
     public SchoolYear(Long id, String yearName, LocalDate startDate, LocalDate endDate) {
@@ -32,48 +32,33 @@ public class SchoolYear {
         this.endDate = endDate;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getYearName() {
-        return yearName;
-    }
+    public String getYearName() { return yearName; }
 
-    public void setYearName(String yearName) {
-        this.yearName = yearName;
-    }
+    public void setYearName(String yearName) { this.yearName = yearName; }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
+    public LocalDate getStartDate() { return startDate; }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
+    public LocalDate getEndDate() { return endDate; }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof SchoolYear)) return false;
         SchoolYear that = (SchoolYear) o;
-        return Objects.equals(id, that.id) && Objects.equals(yearName, that.yearName) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, yearName, startDate, endDate);
+        return Objects.hash(id);
     }
 
     @Override

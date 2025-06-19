@@ -52,20 +52,20 @@ public class Term {
         this.schoolYear = schoolYear;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
     public Integer getTermNumber() {
         return termNumber;
     }
 
     public void setTermNumber(Integer termNumber) {
         this.termNumber = termNumber;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
     public LocalDate getEndDate() {
@@ -78,21 +78,22 @@ public class Term {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof Term)) return false;
         Term term = (Term) o;
-        return Objects.equals(id, term.id) && Objects.equals(schoolYear, term.schoolYear) && Objects.equals(termNumber, term.termNumber) && Objects.equals(startDate, term.startDate) && Objects.equals(endDate, term.endDate);
+        return Objects.equals(id, term.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, schoolYear, termNumber, startDate, endDate);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Term{" +
                 "id=" + id +
-                ", schoolYear=" + schoolYear +
+                ", schoolYearId=" + (schoolYear != null ? schoolYear.getId() : null) +
                 ", termNumber=" + termNumber +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

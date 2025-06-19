@@ -80,23 +80,24 @@ public class StudentYearLevel {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (!(o instanceof StudentYearLevel)) return false;
         StudentYearLevel that = (StudentYearLevel) o;
-        return Objects.equals(id, that.id) && Objects.equals(student, that.student) && Objects.equals(yearLevel, that.yearLevel) && Objects.equals(schoolYear, that.schoolYear) && Objects.equals(score, that.score);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, student, yearLevel, schoolYear, score);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "StudentYearLevel{" +
                 "id=" + id +
-                ", student=" + student +
-                ", yearLevel=" + yearLevel +
-                ", schoolYear=" + schoolYear +
+                ", studentId=" + (student != null ? student.getId() : null) +
+                ", yearLevelId=" + (yearLevel != null ? yearLevel.getId() : null) +
+                ", schoolYearId=" + (schoolYear != null ? schoolYear.getId() : null) +
                 ", score=" + score +
                 '}';
     }
