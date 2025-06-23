@@ -6,9 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public class StudentDto {
-    private Long id;
-
+public class StudentUpdateRequestDto {
     @NotBlank
     private String studentFirstname;
 
@@ -24,10 +22,11 @@ public class StudentDto {
     @NotNull
     private LocalDate enrolmentDate;
 
-    public StudentDto() {
+    public StudentUpdateRequestDto() {
     }
 
-    public StudentDto(String studentFirstname, String studentLastname, LocalDate dateOfBirth, Gender gender, LocalDate enrolmentDate) {
+    public StudentUpdateRequestDto(String studentFirstname, String studentLastname, LocalDate dateOfBirth,
+                                   Gender gender, LocalDate enrolmentDate) {
         this.studentFirstname = studentFirstname;
         this.studentLastname = studentLastname;
         this.dateOfBirth = dateOfBirth;
@@ -35,13 +34,7 @@ public class StudentDto {
         this.enrolmentDate = enrolmentDate;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters and setters
 
     public String getStudentFirstname() {
         return studentFirstname;

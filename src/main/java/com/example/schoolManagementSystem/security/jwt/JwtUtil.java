@@ -1,5 +1,8 @@
 package com.example.schoolManagementSystem.security.jwt;
 
+import com.example.schoolManagementSystem.enums.Role;
+import com.example.schoolManagementSystem.security.userdetails.CustomUserDetails;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.core.GrantedAuthority;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,6 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,9 +37,11 @@ public class JwtUtil {
 
     //This method Creates a signed JWT token containing user data
     public String generateToken(UserDetails userDetails) {
+        CustomUserDetails customUser = (CustomUserDetails) userDetails;
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-                .claim("roles", userDetails.getAuthorities()
+                .setSubject(customUser.getUsername())
+                .claim("userId", customUser.getUserId())
+                .claim("roles", customUser.getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
@@ -54,6 +60,20 @@ public class JwtUtil {
     //This method Validates token by matching the username
     public boolean validateToken(String token, UserDetails userDetails) {
         return extractUsername(token).equals(userDetails.getUsername());
+    }
+
+    public Role extractRole(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        List<String> roles = claims.get("roles", List.class);
+        if (roles == null || roles.isEmpty()) return null;
+        // Assuming only one role per user
+        return Role.valueOf(roles.get(0).replace("ROLE_", ""));
+    }
+
+    public Long extractUserId(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        // Assuming you include the user ID as a custom claim when generating the token
+        return claims.get("userId", Long.class);
     }
 
     public SecretKey getSecretKey() {

@@ -1,8 +1,11 @@
 package com.example.schoolManagementSystem.dtos.Authentication;
 
+import com.example.schoolManagementSystem.enums.Gender;
 import com.example.schoolManagementSystem.enums.Role;
 import org.antlr.v4.runtime.misc.NotNull;
 import jakarta.validation.constraints.*;
+
+import java.time.LocalDate;
 
 public class RegisterRequestDto {
     @NotNull
@@ -29,6 +32,12 @@ public class RegisterRequestDto {
     @NotNull
     private Role role;
 
+    // Only required when role == STUDENT
+    private LocalDate dateOfBirth;
+    private Gender gender;
+    private LocalDate enrolmentDate;
+
+
 
     // Constructors
     public RegisterRequestDto() {}
@@ -40,6 +49,18 @@ public class RegisterRequestDto {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public RegisterRequestDto(String firstName, String lastName, String email, String username, String password, Role role, LocalDate dateOfBirth, Gender gender, LocalDate enrolmentDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.enrolmentDate = enrolmentDate;
     }
 
     // Getters and Setters
@@ -92,5 +113,30 @@ public class RegisterRequestDto {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getEnrolmentDate() {
+        return enrolmentDate;
+    }
+
+    public void setEnrolmentDate(LocalDate enrolmentDate) {
+        this.enrolmentDate = enrolmentDate;
+    }
+
 
 }

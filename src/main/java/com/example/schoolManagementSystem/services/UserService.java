@@ -3,10 +3,13 @@ package com.example.schoolManagementSystem.services;
 import com.example.schoolManagementSystem.dtos.Authentication.RegisterRequestDto;
 import com.example.schoolManagementSystem.dtos.User.UserResponseDto;
 import com.example.schoolManagementSystem.dtos.User.UserUpdateRequestDto;
+import com.example.schoolManagementSystem.entities.Student;
 import com.example.schoolManagementSystem.entities.User;
 import com.example.schoolManagementSystem.enums.Role;
 import com.example.schoolManagementSystem.exceptions.ResourceNotFoundException;
+import com.example.schoolManagementSystem.repositories.StudentRepository;
 import com.example.schoolManagementSystem.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +20,12 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -61,6 +66,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    @Transactional
     public User registerUser(RegisterRequestDto request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("Username already taken");
@@ -77,6 +83,25 @@ public class UserService {
                 request.getRole() != null ? request.getRole() : Role.STUDENT
         );
 
-        return userRepository.save(user);
+        user = userRepository.save(user);
+
+        // 3. If role is STUDENT, create a Student entity too
+        if(user.getRole() == Role.STUDENT) {
+            if (request.getDateOfBirth() == null || request.getGender() == null || request.getEnrolmentDate() == null) {
+                throw new IllegalArgumentException("Missing student-specific fields: dateOfBirth, gender, or enrolmentDate");
+            }
+
+            Student student = new Student();
+            student.setStudentFirstname(request.getFirstName());
+            student.setStudentLastname(request.getLastName());
+            student.setDateOfBirth(request.getDateOfBirth());
+            student.setGender(request.getGender());
+            student.setEnrolmentDate(request.getEnrolmentDate());
+            student.setUser(user); // link user
+
+            studentRepository.save(student);
+        }
+
+        return user;
     }
 }

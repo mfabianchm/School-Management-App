@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -41,20 +42,30 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(jwtUtil.getSecretKey())
-                    .parseClaimsJws(jwt)
-                    .getBody();
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            List<String> roles = claims.get("roles", List.class);
-            List<GrantedAuthority> authorities = roles.stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
-
-            UsernamePasswordAuthenticationToken token =
-                    new UsernamePasswordAuthenticationToken(username, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(token);
+            if (jwtUtil.validateToken(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
         }
+
+//        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//            Claims claims = Jwts.parser()
+//                    .setSigningKey(jwtUtil.getSecretKey())
+//                    .parseClaimsJws(jwt)
+//                    .getBody();
+//
+//            List<String> roles = claims.get("roles", List.class);
+//            List<GrantedAuthority> authorities = roles.stream()
+//                    .map(SimpleGrantedAuthority::new)
+//                    .collect(Collectors.toList());
+//
+//            UsernamePasswordAuthenticationToken token =
+//                    new UsernamePasswordAuthenticationToken(username, null, authorities);
+//            SecurityContextHolder.getContext().setAuthentication(token);
+//        }
 
 
 //        This method passes the request and response to the next filter in the chain, or if there are

@@ -1,6 +1,7 @@
 package com.example.schoolManagementSystem.entities;
 
 import com.example.schoolManagementSystem.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -10,9 +11,13 @@ import java.util.Objects;
 @Table(name = "students")
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq")
-    @SequenceGenerator(name = "student_seq", sequenceName = "student_seq", allocationSize = 1)
     private Long id;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonIgnore
+    private User user;
 
     @Column(name = "student_firstname", nullable = false)
     private String studentFirstname;
@@ -30,10 +35,11 @@ public class Student {
     @Column(name = "enrolment_date", nullable = false)
     private LocalDate enrolmentDate;
 
+
     public Student() {}
 
-    public Student(Long id, String studentFirstname, String studentLastname, LocalDate dateOfBirth, Gender gender, LocalDate enrolmentDate) {
-        this.id = id;
+    public Student(User user, String studentFirstname, String studentLastname, LocalDate dateOfBirth, Gender gender, LocalDate enrolmentDate) {
+        this.user = user;
         this.studentFirstname = studentFirstname;
         this.studentLastname = studentLastname;
         this.dateOfBirth = dateOfBirth;
@@ -41,12 +47,9 @@ public class Student {
         this.enrolmentDate = enrolmentDate;
     }
 
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getStudentFirstname() {
@@ -57,20 +60,20 @@ public class Student {
         this.studentFirstname = studentFirstname;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public String getStudentLastname() {
         return studentLastname;
     }
 
     public void setStudentLastname(String studentLastname) {
         this.studentLastname = studentLastname;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Gender getGender() {
@@ -87,6 +90,14 @@ public class Student {
 
     public void setEnrolmentDate(LocalDate enrolmentDate) {
         this.enrolmentDate = enrolmentDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -111,6 +122,7 @@ public class Student {
                 ", dateOfBirth=" + dateOfBirth +
                 ", gender=" + gender +
                 ", enrolmentDate=" + enrolmentDate +
+                ", userId=" + (user != null ? user.getId() : null) +
                 '}';
     }
 }
