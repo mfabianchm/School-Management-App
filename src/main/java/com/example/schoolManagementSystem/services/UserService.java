@@ -5,6 +5,7 @@ import com.example.schoolManagementSystem.dtos.User.UserResponseDto;
 import com.example.schoolManagementSystem.dtos.User.UserUpdateRequestDto;
 import com.example.schoolManagementSystem.entities.User;
 import com.example.schoolManagementSystem.enums.Role;
+import com.example.schoolManagementSystem.exceptions.ResourceNotFoundException;
 import com.example.schoolManagementSystem.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

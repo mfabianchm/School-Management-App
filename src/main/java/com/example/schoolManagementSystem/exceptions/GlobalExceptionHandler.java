@@ -2,6 +2,7 @@ package com.example.schoolManagementSystem.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import com.example.schoolManagementSystem.utils.ErrorResponse;
 
@@ -38,6 +39,13 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining("; "));
         ErrorResponse error = new ErrorResponse(message, HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // 403 Forbidden: Authenticated but no permission (e.g., not ADMIN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex) {
+        ErrorResponse error = new ErrorResponse("Access denied: You do not have permission to access this resource", HttpStatus.FORBIDDEN.value());
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 
     // 404 Not Found
