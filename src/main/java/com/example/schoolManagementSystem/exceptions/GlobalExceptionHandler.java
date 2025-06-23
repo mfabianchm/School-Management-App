@@ -3,7 +3,8 @@ package com.example.schoolManagementSystem.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.web.ErrorResponse;
+import com.example.schoolManagementSystem.utils.ErrorResponse;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,11 +28,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    // 400 Bad Request: Validation errors from @Valid
-    /* This method handles validation errors that occur when Spring tries to bind request data (like a DTO)
-    and fails due to invalid input, such as:
-    -Missing required fields
-    -Failing @NotNull, @Size, @Min, etc.
+    /* 400 Bad Request: Validation errors from @Valid
     It is triggered automatically when a @Valid or @Validated annotated object in your controller
     has validation errors.*/
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -56,3 +53,5 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+}
