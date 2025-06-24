@@ -32,10 +32,17 @@ public class RegisterRequestDto {
     @NotNull
     private Role role;
 
+
     // Only required when role == STUDENT
     private LocalDate dateOfBirth;
-    private Gender gender;
     private LocalDate enrolmentDate;
+
+    // Required for both STUDENT and TEACHER
+    private Gender gender;
+
+    //  Required for TEACHER
+    @NotBlank
+    private String phoneNumber;
 
 
 
@@ -62,6 +69,21 @@ public class RegisterRequestDto {
         this.gender = gender;
         this.enrolmentDate = enrolmentDate;
     }
+
+    public RegisterRequestDto(String firstName, String lastName, String email, String username, String password, Role role,
+                              LocalDate dateOfBirth, Gender gender, LocalDate enrolmentDate, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.enrolmentDate = enrolmentDate;
+        this.phoneNumber = phoneNumber;
+    }
+
 
     // Getters and Setters
 
@@ -138,5 +160,11 @@ public class RegisterRequestDto {
         this.enrolmentDate = enrolmentDate;
     }
 
+    public @NotBlank String getPhoneNumber() {
+        return phoneNumber;
+    }
 
+    public void setPhoneNumber(@NotBlank String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

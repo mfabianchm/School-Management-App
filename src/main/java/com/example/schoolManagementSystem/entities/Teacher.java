@@ -1,6 +1,7 @@
 package com.example.schoolManagementSystem.entities;
 
 import com.example.schoolManagementSystem.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -8,10 +9,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "teachers")
 public class Teacher {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teacher_seq")
-    @SequenceGenerator(name = "teacher_seq", sequenceName = "teacher_seq", allocationSize = 1)
     private Long id;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonIgnore
+    private User user;
 
     @Column(name = "teacher_firstname", nullable = false)
     private String teacherFirstname;
@@ -31,8 +37,8 @@ public class Teacher {
 
     public Teacher() {}
 
-    public Teacher(Long id, String teacherFirstname, String teacherLastname, Gender gender, String email, String phoneNumber) {
-        this.id = id;
+    public Teacher(User user, String teacherFirstname, String teacherLastname, Gender gender, String email, String phoneNumber) {
+        this.user = user;
         this.teacherFirstname = teacherFirstname;
         this.teacherLastname = teacherLastname;
         this.gender = gender;
@@ -40,14 +46,11 @@ public class Teacher {
         this.phoneNumber = phoneNumber;
     }
 
+
     // Getters and setters...
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTeacherFirstname() {
@@ -88,6 +91,14 @@ public class Teacher {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     // equals and hashCode based on id only

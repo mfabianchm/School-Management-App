@@ -4,10 +4,12 @@ import com.example.schoolManagementSystem.dtos.Authentication.RegisterRequestDto
 import com.example.schoolManagementSystem.dtos.User.UserResponseDto;
 import com.example.schoolManagementSystem.dtos.User.UserUpdateRequestDto;
 import com.example.schoolManagementSystem.entities.Student;
+import com.example.schoolManagementSystem.entities.Teacher;
 import com.example.schoolManagementSystem.entities.User;
 import com.example.schoolManagementSystem.enums.Role;
 import com.example.schoolManagementSystem.exceptions.ResourceNotFoundException;
 import com.example.schoolManagementSystem.repositories.StudentRepository;
+import com.example.schoolManagementSystem.repositories.TeacherRepository;
 import com.example.schoolManagementSystem.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,12 +23,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, StudentRepository studentRepository, PasswordEncoder passwordEncoder, TeacherRepository teacherRepository) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
+        this.teacherRepository = teacherRepository;
     }
 
     public List<UserResponseDto> getAllUsers() {
@@ -100,6 +104,23 @@ public class UserService {
             student.setUser(user); // link user
 
             studentRepository.save(student);
+        }
+
+        // If role is TEACHER, create teacher entity
+        if (user.getRole() == Role.TEACHER) {
+            if (request.getFirstName() == null || request.getLastName() == null || request.getGender() == null || request.getPhoneNumber() == null) {
+                throw new IllegalArgumentException("Missing teacher-specific fields: firstName, lastName, gender, or phoneNumber");
+            }
+
+            Teacher teacher = new Teacher();
+            teacher.setTeacherFirstname(request.getFirstName());
+            teacher.setTeacherLastname(request.getLastName());
+            teacher.setGender(request.getGender());
+            teacher.setEmail(request.getEmail());
+            teacher.setPhoneNumber(request.getPhoneNumber());
+            teacher.setUser(user);
+
+            teacherRepository.save(teacher);
         }
 
         return user;
