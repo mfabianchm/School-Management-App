@@ -1,19 +1,28 @@
 package com.example.schoolManagementSystem.dtos.Classroom;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ClassroomRequestDto {
+    @NotBlank
     private String roomName;
-    private int capacity;
+
+    @NotNull
+    private Integer capacity;
+
+    @NotNull
     private Long classroomTypeId;
 
     public ClassroomRequestDto() {
     }
 
-    public ClassroomRequestDto(String roomName, int capacity, Long classroomTypeId) {
+    public ClassroomRequestDto(String roomName, Integer capacity, Long classroomTypeId) {
         this.roomName = roomName;
         this.capacity = capacity;
         this.classroomTypeId = classroomTypeId;
     }
 
+    // Getters and Setters
     public String getRoomName() {
         return roomName;
     }
@@ -22,11 +31,11 @@ public class ClassroomRequestDto {
         this.roomName = roomName;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
