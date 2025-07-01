@@ -33,6 +33,12 @@ public class StudentGuardian {
         this.guardianType = guardianType;
     }
 
+    public StudentGuardian(Student student, Guardian guardian, GuardianType type) {
+        this.student = student;
+        this.guardian = guardian;
+        this.guardianType = type;
+    }
+
     public Long getId() {
         return id;
     }
