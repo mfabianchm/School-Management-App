@@ -29,13 +29,9 @@ public class SchoolClass {
     @JoinColumn(name = "term_id", nullable = false)
     private Term term;
 
-    @ManyToOne
-    @JoinColumn(name = "start_period_id", nullable = false)
-    private Period startPeriod;
-
-    @ManyToOne
-    @JoinColumn(name = "end_period_id", nullable = false)
-    private Period endPeriod;
+    @ManyToOne()
+    @JoinColumn(name = "period_id", nullable = false)
+    private Period period;
 
     @ManyToOne
     @JoinColumn(name = "classroom_id", nullable = false)
@@ -44,15 +40,12 @@ public class SchoolClass {
     // Constructors
     public SchoolClass() {}
 
-    public SchoolClass(Long id, String name, SchoolSubject subject, Teacher teacher,
-                       Term term, Period startPeriod, Period endPeriod, Classroom classroom) {
-        this.id = id;
+    public SchoolClass(String name, SchoolSubject subject, Teacher teacher, Term term, Period period, Classroom classroom) {
         this.name = name;
         this.subject = subject;
         this.teacher = teacher;
         this.term = term;
-        this.startPeriod = startPeriod;
-        this.endPeriod = endPeriod;
+        this.period = period;
         this.classroom = classroom;
     }
 
@@ -77,13 +70,9 @@ public class SchoolClass {
 
     public void setTerm(Term term) { this.term = term; }
 
-    public Period getStartPeriod() { return startPeriod; }
+    public Period getPeriod() { return period; }
 
-    public void setStartPeriod(Period startPeriod) { this.startPeriod = startPeriod; }
-
-    public Period getEndPeriod() { return endPeriod; }
-
-    public void setEndPeriod(Period endPeriod) { this.endPeriod = endPeriod; }
+    public void setPeriod(Period period) {}
 
     public Classroom getClassroom() { return classroom; }
 
@@ -107,12 +96,11 @@ public class SchoolClass {
         return "SchoolClass{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", subject=" + (subject != null ? subject.getId() : null) +
-                ", teacher=" + (teacher != null ? teacher.getId() : null) +
-                ", term=" + (term != null ? term.getId() : null) +
-                ", startPeriod=" + (startPeriod != null ? startPeriod.getId() : null) +
-                ", endPeriod=" + (endPeriod != null ? endPeriod.getId() : null) +
-                ", classroom=" + (classroom != null ? classroom.getId() : null) +
+                ", subject=" + subject +
+                ", teacher=" + teacher +
+                ", term=" + term +
+                ", period=" + period +
+                ", classroom=" + classroom +
                 '}';
     }
 }
